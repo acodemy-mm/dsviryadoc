@@ -4,6 +4,40 @@ This is a Next.js 16 app with Supabase (auth, database, storage). The recommende
 
 ---
 
+## Deploy on push (GitHub → Vercel)
+
+Every push to `main` can trigger a deploy using the included **GitHub Action** (`.github/workflows/deploy-vercel.yml`).
+
+### One-time setup
+
+1. **Create the project on Vercel**
+   - Go to [vercel.com](https://vercel.com) → **Add New… → Project**.
+   - Import your GitHub repo **acodemy-mm/dsviryadocument**.
+   - Set **Root Directory** to `.` (repo root is already the app).
+   - Add env vars: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, and optionally `SUPABASE_SERVICE_ROLE_KEY`.
+   - Deploy once (so the project exists).
+
+2. **Get Vercel IDs and token**
+   - **Token:** [vercel.com/account/tokens](https://vercel.com/account/tokens) → Create Token (e.g. “GitHub Deploy”) → copy it.
+   - **Org & Project ID:** In terminal (from your repo):
+     ```bash
+     cd design-system
+     npx vercel link
+     ```
+     Choose your scope and the project you just created. Then open `.vercel/project.json` — it contains `orgId` and `projectId`. Copy those (then you can add `.vercel` to `.gitignore` if you like; it’s already ignored).
+
+3. **Add GitHub Secrets**
+   - Repo **acodemy-mm/dsviryadocument** → **Settings → Secrets and variables → Actions**.
+   - **New repository secret** for each:
+     - `VERCEL_TOKEN` = the token from step 2
+     - `VERCEL_ORG_ID` = `orgId` from `.vercel/project.json`
+     - `VERCEL_PROJECT_ID` = `projectId` from `.vercel/project.json`
+
+4. **Push to main**
+   - Any push to `main` will run the workflow and deploy to Vercel production.
+
+---
+
 ## Option 1: Vercel (recommended)
 
 1. **Push your code to GitHub** (if you haven’t already):
