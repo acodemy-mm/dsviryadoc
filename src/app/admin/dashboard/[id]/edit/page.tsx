@@ -1,9 +1,20 @@
-import { createClient } from '@/lib/supabase/server';
+import { createClient, isSupabaseConfigured } from '@/lib/supabase/server';
 import { notFound } from 'next/navigation';
 import { DSComponent } from '@/lib/types';
 import { ComponentForm } from '@/components/ComponentForm';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
+
+function EnvSetupMessage() {
+  return (
+    <div className="p-8 max-w-lg">
+      <p className="text-zinc-300 font-medium mb-2">Configure Supabase</p>
+      <p className="text-zinc-500 text-sm">
+        Add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in Vercel → Project Settings → Environment Variables.
+      </p>
+    </div>
+  );
+}
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -11,6 +22,8 @@ interface Props {
 
 export default async function EditComponentPage({ params }: Props) {
   const { id } = await params;
+  if (!isSupabaseConfigured()) return <EnvSetupMessage />;
+
   const supabase = await createClient();
 
   const { data, error } = await supabase

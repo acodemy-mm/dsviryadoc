@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server';
+import { createClient, isSupabaseConfigured } from '@/lib/supabase/server';
 import { ComponentGallery } from '@/components/SearchBar';
 import { DSComponent } from '@/lib/types';
 import { Plus } from 'lucide-react';
@@ -7,14 +7,18 @@ import Link from 'next/link';
 export const revalidate = 60;
 
 export default async function ComponentsPage() {
-  const supabase = await createClient();
-  const { data: components, error } = await supabase
-    .from('ds_components')
-    .select('*')
-    .order('category')
-    .order('name');
-
-  const items = (components as DSComponent[]) ?? [];
+  let items: DSComponent[] = [];
+  let error = null;
+  if (isSupabaseConfigured()) {
+    const supabase = await createClient();
+    const result = await supabase
+      .from('ds_components')
+      .select('*')
+      .order('category')
+      .order('name');
+    items = (result.data as DSComponent[]) ?? [];
+    error = result.error;
+  }
 
   return (
     <div className="p-8 max-w-7xl mx-auto">
@@ -34,6 +38,15 @@ export default async function ComponentsPage() {
         </Link>
       </div>
 
+      {!isSupabaseConfigured() && (
+        <div className="mb-6 px-4 py-4 rounded-lg border border-amber-200 dark:border-amber-500/20 bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 text-sm">
+          <p className="font-medium">Configure Supabase for Vercel</p>
+          <p className="text-xs mt-1 opacity-90">
+            Add <code className="bg-amber-200/50 dark:bg-amber-500/20 px-1 rounded">NEXT_PUBLIC_SUPABASE_URL</code> and{' '}
+            <code className="bg-amber-200/50 dark:bg-amber-500/20 px-1 rounded">NEXT_PUBLIC_SUPABASE_ANON_KEY</code> in Vercel → Project Settings → Environment Variables, then redeploy.
+          </p>
+        </div>
+      )}
       {error && (
         <div className="mb-6 px-4 py-3 rounded-lg border border-amber-200 dark:border-amber-500/20 bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 text-sm">
           <p className="font-medium">Database not set up yet</p>

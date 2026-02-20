@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server';
+import { createClient, isSupabaseConfigured } from '@/lib/supabase/server';
 import { DSComponent } from '@/lib/types';
 import { CategoryBadge } from '@/components/ui/Badge';
 import Link from 'next/link';
@@ -8,7 +8,20 @@ import { redirect } from 'next/navigation';
 
 export const dynamic = 'force-dynamic';
 
+function EnvSetupMessage() {
+  return (
+    <div className="p-8 max-w-lg">
+      <p className="text-zinc-300 font-medium mb-2">Configure Supabase</p>
+      <p className="text-zinc-500 text-sm">
+        Add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in Vercel → Project Settings → Environment Variables, then redeploy.
+      </p>
+    </div>
+  );
+}
+
 export default async function DashboardPage() {
+  if (!isSupabaseConfigured()) return <EnvSetupMessage />;
+
   const supabase = await createClient();
   const { data: components, error } = await supabase
     .from('ds_components')

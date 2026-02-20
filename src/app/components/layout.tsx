@@ -1,17 +1,18 @@
-import { createClient } from '@/lib/supabase/server';
+import { createClient, isSupabaseConfigured } from '@/lib/supabase/server';
 import { Sidebar } from '@/components/Sidebar';
 import { DSComponent } from '@/lib/types';
 
 export default async function ComponentsLayout({ children }: { children: React.ReactNode }) {
-  const supabase = await createClient();
-  const { data: components } = await supabase
-    .from('ds_components')
-    .select('*')
-    .order('name');
+  let components: DSComponent[] = [];
+  if (isSupabaseConfigured()) {
+    const supabase = await createClient();
+    const { data } = await supabase.from('ds_components').select('*').order('name');
+    components = (data as DSComponent[]) ?? [];
+  }
 
   return (
     <div className="flex min-h-screen">
-      <Sidebar components={(components as DSComponent[]) ?? []} />
+      <Sidebar components={components} />
       <main className="flex-1 min-w-0">{children}</main>
     </div>
   );

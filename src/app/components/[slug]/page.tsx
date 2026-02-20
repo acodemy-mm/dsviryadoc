@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server';
+import { createClient, isSupabaseConfigured } from '@/lib/supabase/server';
 import { notFound } from 'next/navigation';
 import { DSComponent } from '@/lib/types';
 import { CategoryBadge } from '@/components/ui/Badge';
@@ -10,14 +10,26 @@ import { ArrowLeft, Pencil, Calendar, ImageIcon } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
+function EnvSetupMessage() {
+  return (
+    <div className="max-w-4xl mx-auto px-8 py-12 text-center">
+      <p className="text-zinc-400 text-sm mb-2">Supabase not configured</p>
+      <p className="text-zinc-500 text-xs max-w-md mx-auto">
+        Add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in Vercel → Settings → Environment Variables, then redeploy.
+      </p>
+    </div>
+  );
+}
+
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
 export default async function ComponentPage({ params }: Props) {
   const { slug } = await params;
-  const supabase = await createClient();
+  if (!isSupabaseConfigured()) return <EnvSetupMessage />;
 
+  const supabase = await createClient();
   const { data, error } = await supabase
     .from('ds_components')
     .select('*')
