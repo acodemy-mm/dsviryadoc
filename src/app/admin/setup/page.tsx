@@ -142,7 +142,7 @@ export default function SetupPage() {
                 <h3 className="font-semibold text-zinc-100 mb-1">{step.title}</h3>
                 <p className="text-sm text-zinc-500 mb-2">{step.description}</p>
                 {step.isCode ? (
-                  <code className="block text-xs font-mono text-violet-300 bg-zinc-950 border border-zinc-800 px-3 py-2 rounded-md">
+                  <code className="block text-xs font-mono text-[#1464eb] bg-zinc-950 border border-zinc-800 px-3 py-2 rounded-md">
                     {step.detail}
                   </code>
                 ) : (

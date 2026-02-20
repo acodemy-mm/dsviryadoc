@@ -21,15 +21,14 @@ function useCopyHex() {
 export function ColorSection() {
   return (
     <div className="space-y-4">
-      <p className="text-xs text-[#9db0c8] dark:text-zinc-500">All brand palettes below. Scroll vertically to see each theme.</p>
-      {/* Vertically scrollable themes */}
-      <div className="max-h-[min(75vh,720px)] overflow-y-auto space-y-8 pr-2 border border-[#c9d5e8] dark:border-zinc-800 rounded-xl p-4 bg-[#f8fafc] dark:bg-zinc-950/50">
+      <p className="text-xs text-[#9db0c8] dark:text-zinc-500">All brand palettes below.</p>
+      <div className="border border-[#c9d5e8] dark:border-zinc-800 rounded-xl p-4 bg-[#f8fafc] dark:bg-zinc-950/50 space-y-8">
         {BRANDS.map((brand) => {
           const palette = brandColors[brand];
           const meta = BRAND_META[brand];
           return (
-            <div key={brand} className="space-y-4 shrink-0">
-              <div className="flex items-center gap-2 sticky top-0 py-1 bg-[#f0f4fa] dark:bg-zinc-950/90 z-10 border-b border-[#c9d5e8] dark:border-zinc-800 -mx-4 px-4 -mt-1">
+            <div key={brand} className="space-y-4">
+              <div className="flex items-center gap-2 py-1 border-b border-[#c9d5e8] dark:border-zinc-800 -mx-4 px-4 -mt-1">
                 <div className="flex gap-1">
                   <span className="w-4 h-4 rounded-full border border-black/10" style={{ background: meta.primaryHex }} />
                   <span className="w-4 h-4 rounded-full border border-black/10" style={{ background: meta.secondaryHex }} />
@@ -41,7 +40,7 @@ export function ColorSection() {
               <BrandPalette label="Secondary" scale={palette.secondary} prefix="color-secondary" accent={meta.secondaryHex} />
               <div className="flex items-center gap-3 px-3 py-2 rounded-lg border border-[#c9d5e8] dark:border-zinc-800 bg-[#f0f4fa] dark:bg-zinc-900/60 text-xs font-mono text-[#6b82a0] dark:text-zinc-500">
                 <span className="text-[#9db0c8] dark:text-zinc-700">Activate:</span>
-                <code className="text-[#002c76] dark:text-violet-300">{'<html data-brand="'}{brand}{'">'}</code>
+                <code className="text-[#002c76] dark:text-[#1464eb]">{'<html data-brand="'}{brand}{'">'}</code>
               </div>
             </div>
           );
@@ -111,7 +110,7 @@ function BrandPalette({ label, scale, prefix, accent }: {
               <p className={cn(
                 'text-[10px] font-mono text-center transition-colors',
                 isCopied
-                  ? 'text-[#002c76] dark:text-emerald-400 font-semibold'
+                  ? 'text-[#002c76] dark:text-[#1464eb] font-semibold'
                   : 'text-[#9db0c8] dark:text-zinc-600'
               )}>
                 {isCopied ? '✓' : step}
@@ -170,7 +169,7 @@ export function SwatchRow({ scale, prefix, onCopy }: {
             </div>
             <p className={cn(
               'text-[9px] font-mono text-center',
-              isCopied ? 'text-[#002c76] dark:text-emerald-400' : 'text-[#9db0c8] dark:text-zinc-600'
+              isCopied ? 'text-[#002c76] dark:text-[#1464eb]' : 'text-[#9db0c8] dark:text-zinc-600'
             )}>
               {isCopied ? '✓' : step}
             </p>
@@ -220,7 +219,7 @@ export function AlphaSwatchRow({ scale, prefix }: {
             </div>
             <p className={cn(
               'text-[9px] font-mono text-center',
-              isCopied ? 'text-[#002c76] dark:text-emerald-400' : 'text-[#9db0c8] dark:text-zinc-600'
+              isCopied ? 'text-[#002c76] dark:text-[#1464eb]' : 'text-[#9db0c8] dark:text-zinc-600'
             )}>
               {isCopied ? '✓' : step.replace('A', '')}
             </p>

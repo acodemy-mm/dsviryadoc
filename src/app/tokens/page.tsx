@@ -83,7 +83,7 @@ export default function TokensPage() {
                 {group.tokens.map((token) => (
                   <tr key={token.name} className="hover:bg-[#f8fafc] dark:hover:bg-zinc-900/40 transition-colors group">
                     <td className="px-5 py-3.5">
-                      <code className="text-xs text-[#002c76] dark:text-violet-300 font-mono">--{token.name}</code>
+                      <code className="text-xs text-[#002c76] dark:text-[#1464eb] font-mono">--{token.name}</code>
                     </td>
                     <td className="px-5 py-3.5">
                       <span className="text-xs font-mono text-[#3d5070] dark:text-zinc-300">{token.value}{token.unit ?? ''}</span>
@@ -224,7 +224,7 @@ export default function TokensPage() {
           <p className="pl-4">font-size: <span className="text-[#88e788]">var(--font-size-label-01)</span>;</p>
           <p>{'}'}</p>
           <p className="pt-1 text-[#6b82a0">{'/* Switch brand palette */'}</p>
-          <p className="text-slate-300">{'<html data-brand="kbz-pay">'}</p>
+          <p className="text-[#1464eb]">{'<html data-brand="kbz-pay">'}</p>
           <p className="pt-1 text-[#6b82a0]">{'/* TypeScript */'}</p>
           <p><span className="text-[#f2c788]">import</span> {'{ kbzBankColors, spacing }'} <span className="text-[#f2c788]">from</span> <span className="text-[#88e788]">'@/lib/design-tokens'</span>;</p>
         </div>
@@ -235,7 +235,7 @@ export default function TokensPage() {
 
 function Chip({ children }: { children: React.ReactNode }) {
   return (
-    <code className="text-[#002c76] dark:text-violet-400 text-xs bg-[#eef2f7] dark:bg-zinc-900 border border-[#c9d5e8] dark:border-zinc-800 px-1.5 py-0.5 rounded">
+    <code className="text-[#002c76] dark:text-[#1464eb] text-xs bg-[#eef2f7] dark:bg-zinc-900 border border-[#c9d5e8] dark:border-zinc-800 px-1.5 py-0.5 rounded">
       {children}
     </code>
   );
@@ -266,7 +266,7 @@ function TokenVisual({ group, value }: { group: string; value: number }) {
   if (group === 'Spacing' || group === 'Semantic Spacing') {
     return (
       <div className="flex items-center gap-2">
-        <div className="h-3 bg-[#002c76]/30 dark:bg-violet-500/40 border border-[#002c76]/20 dark:border-violet-500/30 rounded-sm" style={{ width: `${Math.min(value * 2, 140)}px` }} />
+        <div className="h-3 bg-[#002c76]/30 dark:bg-[#1464eb]/40 border border-[#002c76]/20 dark:border-[#1464eb]/30 rounded-sm" style={{ width: `${Math.min(value * 2, 140)}px` }} />
         <span className="text-xs text-[#9db0c8] dark:text-zinc-600 font-mono">{value}px</span>
       </div>
     );

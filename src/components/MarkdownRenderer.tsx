@@ -22,7 +22,7 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
           code: ({ children, className }) => {
             const isInline = !className;
             return isInline
-              ? <code className="bg-gray-100 dark:bg-zinc-800 text-violet-600 dark:text-violet-300 px-1.5 py-0.5 rounded text-xs font-mono">{children}</code>
+              ? <code className="bg-gray-100 dark:bg-zinc-800 text-[#1464eb] dark:text-[#1464eb] px-1.5 py-0.5 rounded text-xs font-mono">{children}</code>
               : <code className="block bg-gray-50 dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-md p-4 text-sm font-mono text-gray-700 dark:text-zinc-300 overflow-x-auto">{children}</code>;
           },
           pre: ({ children }) => <pre className="not-prose mb-4">{children}</pre>,

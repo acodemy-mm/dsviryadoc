@@ -78,7 +78,7 @@ export default async function ComponentPage({ params }: Props) {
           </Link>
         </div>
 
-        {/* Preview — vertically scrollable gallery */}
+        {/* Preview — images stacked vertically in page flow (no inner scroll) */}
         <section className="flex flex-col gap-3">
           <h2 className="text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-zinc-600">Preview</h2>
           <div className="rounded-xl border border-gray-200 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-900 overflow-hidden">
@@ -96,9 +96,9 @@ export default async function ComponentPage({ params }: Props) {
                 );
               }
               return (
-                <div className="max-h-[70vh] overflow-y-auto flex flex-col gap-3 p-3">
+                <div className="flex flex-col gap-3 p-3">
                   {allUrls.map((url, i) => (
-                    <div key={url} className="relative w-full aspect-video rounded-lg overflow-hidden bg-zinc-800 shrink-0">
+                    <div key={url} className="relative w-full aspect-video rounded-lg overflow-hidden bg-zinc-800">
                       <Image src={url} alt={`${component.name} preview ${i + 1}`} fill className="object-contain" />
                     </div>
                   ))}
