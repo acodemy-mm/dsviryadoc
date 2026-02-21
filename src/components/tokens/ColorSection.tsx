@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { BRAND_META, brandColors, type Brand, type ColorScale } from '@/lib/design-tokens';
+import { BRAND_META, brandColors, type Brand, type ColorScale, type AlphaScale } from '@/lib/design-tokens';
 import { Check, Copy } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -188,7 +188,7 @@ export function SwatchRow({ scale, prefix, onCopy }: {
 }
 
 export function AlphaSwatchRow({ scale, prefix }: {
-  scale: Record<string, string>;
+  scale: AlphaScale | Record<string, string>;
   prefix: string;
 }) {
   const { copied, copy } = useCopyHex();

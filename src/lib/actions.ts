@@ -28,7 +28,7 @@ export async function createComponent(data: DSComponentInsert) {
   const supabase = await createClient();
   const { error } = await supabase.from('ds_components').insert(data);
   if (error) throw new Error(error.message);
-  revalidateTag('ds-components');
+  revalidateTag('ds-components', 'default');
   revalidatePath('/components');
   revalidatePath('/admin/dashboard');
   redirect('/admin/dashboard');
@@ -38,7 +38,7 @@ export async function updateComponent(id: string, data: Partial<DSComponentInser
   const supabase = await createClient();
   const { error } = await supabase.from('ds_components').update(data).eq('id', id);
   if (error) throw new Error(error.message);
-  revalidateTag('ds-components');
+  revalidateTag('ds-components', 'default');
   revalidatePath('/components');
   revalidatePath('/admin/dashboard');
   redirect('/admin/dashboard');
@@ -48,7 +48,7 @@ export async function deleteComponent(id: string) {
   const supabase = await createClient();
   const { error } = await supabase.from('ds_components').delete().eq('id', id);
   if (error) throw new Error(error.message);
-  revalidateTag('ds-components');
+  revalidateTag('ds-components', 'default');
   revalidatePath('/components');
   revalidatePath('/admin/dashboard');
 }
