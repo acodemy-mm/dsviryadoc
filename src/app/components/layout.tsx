@@ -1,14 +1,8 @@
-import { createClient, isSupabaseConfigured } from '@/lib/supabase/server';
 import { Sidebar } from '@/components/Sidebar';
-import { DSComponent } from '@/lib/types';
+import { getCachedComponentsList } from '@/lib/components-data';
 
 export default async function ComponentsLayout({ children }: { children: React.ReactNode }) {
-  let components: DSComponent[] = [];
-  if (isSupabaseConfigured()) {
-    const supabase = await createClient();
-    const { data } = await supabase.from('ds_components').select('*').order('name');
-    components = (data as DSComponent[]) ?? [];
-  }
+  const components = await getCachedComponentsList();
 
   return (
     <div className="flex min-h-screen">

@@ -91,6 +91,7 @@ export function Sidebar({ components }: SidebarProps) {
                       <Link
                         key={component.id}
                         href={`/components/${component.slug}`}
+                        prefetch={true}
                         className={cn(
                           'flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs transition-all duration-150',
                           isActive

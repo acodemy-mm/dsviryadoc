@@ -145,6 +145,13 @@ export const BRAND_META: Record<Brand, { label: string; primaryHex: string; seco
   'premium-bank': { label: 'Premium Bank', primaryHex: '#1d2d49', secondaryHex: '#cbb075' },
 };
 
+/** Brand typography — Google Fonts. CSS var --font-sans is set per data-brand. */
+export const BRAND_FONTS: Record<Brand, { name: string; url: string; cssVar: string }> = {
+  'kbz-bank':     { name: 'Poppins',  url: 'https://fonts.google.com/specimen/Poppins',  cssVar: '--font-poppins' },
+  'kbz-pay':      { name: 'Nunito',   url: 'https://fonts.google.com/specimen/Nunito',   cssVar: '--font-nunito' },
+  'premium-bank': { name: 'Inter',    url: 'https://fonts.google.com/specimen/Inter',    cssVar: '--font-inter' },
+};
+
 // ─── Primitive numeric tokens (shared across all brands) ─────────────────────
 
 export const spacing = {

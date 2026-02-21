@@ -1,3 +1,4 @@
+import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 
@@ -5,6 +6,17 @@ export function isSupabaseConfigured() {
   return !!(
     process.env.NEXT_PUBLIC_SUPABASE_URL &&
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  );
+}
+
+/** Cookie-less client for public read-only data. Safe to use inside unstable_cache. */
+export function createPublicClient() {
+  if (!isSupabaseConfigured()) {
+    throw new Error('Supabase env vars missing.');
+  }
+  return createSupabaseClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
 }
 

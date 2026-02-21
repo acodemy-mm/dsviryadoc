@@ -129,6 +129,7 @@
    ═══════════════════════════════════════════════════════════════════════════ */
 :root,
 [data-brand="kbz-bank"] {
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
   --color-primary-50:  #fafcff; --color-primary-100: #f0f5ff;
   --color-primary-200: #e1ecfe; --color-primary-300: #92bafb;
   --color-primary-400: #1464eb; --color-primary-500: #002c76;
@@ -143,6 +144,7 @@
 }
 
 [data-brand="kbz-pay"] {
+  --font-sans: var(--font-nunito), ui-sans-serif, system-ui, sans-serif;
   --color-primary-50:  #fafdff; --color-primary-100: #e5f2ff;
   --color-primary-200: #d7ebfe; --color-primary-300: #86c0f9;
   --color-primary-400: #1371cd; --color-primary-500: #0054a6;
@@ -157,6 +159,7 @@
 }
 
 [data-brand="premium-bank"] {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --color-primary-50:  #fbfcfe; --color-primary-100: #f0f4fa;
   --color-primary-200: #dae2f1; --color-primary-300: #b7c5e1;
   --color-primary-400: #435d89; --color-primary-500: #1d2d49;
@@ -232,7 +235,8 @@
 
 /* ─── Tailwind v4 @theme ─────────────────────────────────────────────────── */
 @theme inline {
-  --font-sans: var(--font-geist-sans);
+  /* --font-sans set per brand in :root / [data-brand] (Poppins, Nunito, Inter) */
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono);
   --color-brand-primary:   var(--color-primary-500);
   --color-brand-secondary: var(--color-secondary-500);
@@ -243,6 +247,7 @@
 html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
 body {
+  font-family: var(--font-sans);
   background-color: var(--bg);
   color: var(--fg);
   transition: background-color 0.2s ease, color 0.2s ease;
