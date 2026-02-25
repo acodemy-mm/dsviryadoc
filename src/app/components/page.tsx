@@ -1,24 +1,14 @@
-import { createClient, isSupabaseConfigured } from '@/lib/supabase/server';
+import { isSupabaseConfigured } from '@/lib/supabase/server';
+import { getCachedComponentsList } from '@/lib/components-data';
 import { ComponentGallery } from '@/components/SearchBar';
-import { DSComponent } from '@/lib/types';
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
 
 export const revalidate = 60;
 
 export default async function ComponentsPage() {
-  let items: DSComponent[] = [];
-  let error = null;
-  if (isSupabaseConfigured()) {
-    const supabase = await createClient();
-    const result = await supabase
-      .from('ds_components')
-      .select('*')
-      .order('category')
-      .order('name');
-    items = (result.data as DSComponent[]) ?? [];
-    error = result.error;
-  }
+  let items = await getCachedComponentsList();
+  const error = !isSupabaseConfigured() ? null : undefined;
 
   return (
     <div className="p-8 max-w-7xl mx-auto">

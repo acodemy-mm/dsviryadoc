@@ -2,8 +2,8 @@ import { createClient, isSupabaseConfigured } from '@/lib/supabase/server';
 import { DSComponent } from '@/lib/types';
 import { CategoryBadge } from '@/components/ui/Badge';
 import Link from 'next/link';
-import { Plus, Pencil, ExternalLink, LayoutGrid, Calendar } from 'lucide-react';
-import { DeleteButton } from '@/components/DeleteButton';
+import { Plus, LayoutGrid } from 'lucide-react';
+import { DraggableComponentList } from '@/components/DraggableComponentList';
 import { redirect } from 'next/navigation';
 
 export const dynamic = 'force-dynamic';
@@ -26,14 +26,16 @@ export default async function DashboardPage() {
   const { data: components, error } = await supabase
     .from('ds_components')
     .select('*')
-    .order('category')
     .order('name');
 
   if (error?.code === 'PGRST205') {
     redirect('/admin/setup');
   }
 
-  const items = (components as DSComponent[]) ?? [];
+  const raw = (components as DSComponent[]) ?? [];
+  const items = [...raw].sort(
+    (a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0) || a.name.localeCompare(b.name)
+  );
 
   const statsByCategory = items.reduce(
     (acc, c) => { acc[c.category] = (acc[c.category] ?? 0) + 1; return acc; },
@@ -97,9 +99,13 @@ export default async function DashboardPage() {
         </div>
       ) : (
         <div className="rounded-xl border border-gray-200 dark:border-zinc-800 overflow-hidden">
+          <p className="px-4 py-2 text-xs text-gray-500 dark:text-zinc-500 bg-gray-50 dark:bg-zinc-900/50 border-b border-gray-200 dark:border-zinc-800">
+            Drag the grip to reorder. Order is saved and reflected on the Components page and sidebar.
+          </p>
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-gray-200 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-900/50">
+                <th className="w-10 px-2 py-3.5" aria-label="Drag to reorder" />
                 <th className="text-left px-5 py-3.5 text-xs font-semibold text-gray-500 dark:text-zinc-500 uppercase tracking-wider">Component</th>
                 <th className="text-left px-5 py-3.5 text-xs font-semibold text-gray-500 dark:text-zinc-500 uppercase tracking-wider hidden sm:table-cell">Category</th>
                 <th className="text-left px-5 py-3.5 text-xs font-semibold text-gray-500 dark:text-zinc-500 uppercase tracking-wider hidden md:table-cell">Slug</th>
@@ -107,54 +113,7 @@ export default async function DashboardPage() {
                 <th className="text-right px-5 py-3.5 text-xs font-semibold text-gray-500 dark:text-zinc-500 uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100 dark:divide-zinc-800">
-              {items.map((component) => (
-                <tr key={component.id} className="hover:bg-gray-50 dark:hover:bg-zinc-900/50 transition-colors group bg-white dark:bg-transparent">
-                  <td className="px-5 py-4">
-                    <div>
-                      <p className="font-medium text-gray-900 dark:text-zinc-100">{component.name}</p>
-                      {component.description && (
-                        <p className="text-xs text-gray-400 dark:text-zinc-600 mt-0.5 line-clamp-1">{component.description}</p>
-                      )}
-                    </div>
-                  </td>
-                  <td className="px-5 py-4 hidden sm:table-cell">
-                    <CategoryBadge label={component.category} />
-                  </td>
-                  <td className="px-5 py-4 hidden md:table-cell">
-                    <code className="text-xs text-gray-500 dark:text-zinc-500 font-mono bg-gray-100 dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 px-2 py-0.5 rounded">
-                      {component.slug}
-                    </code>
-                  </td>
-                  <td className="px-5 py-4 hidden lg:table-cell">
-                    <div className="flex items-center gap-1.5 text-xs text-gray-400 dark:text-zinc-600">
-                      <Calendar className="w-3 h-3" />
-                      {new Date(component.updated_at).toLocaleDateString()}
-                    </div>
-                  </td>
-                  <td className="px-5 py-4">
-                    <div className="flex items-center justify-end gap-2">
-                      <Link
-                        href={`/components/${component.slug}`}
-                        target="_blank"
-                        className="p-1.5 rounded text-gray-400 dark:text-zinc-600 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors"
-                        title="View"
-                      >
-                        <ExternalLink className="w-3.5 h-3.5" />
-                      </Link>
-                      <Link
-                        href={`/admin/dashboard/${component.id}/edit`}
-                        className="p-1.5 rounded text-gray-400 dark:text-zinc-600 hover:text-gray-600 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors"
-                        title="Edit"
-                      >
-                        <Pencil className="w-3.5 h-3.5" />
-                      </Link>
-                      <DeleteButton id={component.id} name={component.name} />
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
+            <DraggableComponentList items={items} />
           </table>
         </div>
       )}

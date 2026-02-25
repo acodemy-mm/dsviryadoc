@@ -26,7 +26,20 @@ export async function signOut() {
 
 export async function createComponent(data: DSComponentInsert) {
   const supabase = await createClient();
-  const { error } = await supabase.from('ds_components').insert(data);
+  const { data: maxRow, error: maxError } = await supabase
+    .from('ds_components')
+    .select('sort_order')
+    .order('sort_order', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  let payload: Record<string, unknown> = { ...data };
+  if (maxError) {
+    const { sort_order: _o, ...rest } = data;
+    payload = rest;
+  } else {
+    payload.sort_order = ((maxRow?.sort_order ?? 0) as number) + 1;
+  }
+  const { error } = await supabase.from('ds_components').insert(payload);
   if (error) throw new Error(error.message);
   revalidateTag('ds-components', 'default');
   revalidatePath('/components');
@@ -48,6 +61,19 @@ export async function deleteComponent(id: string) {
   const supabase = await createClient();
   const { error } = await supabase.from('ds_components').delete().eq('id', id);
   if (error) throw new Error(error.message);
+  revalidateTag('ds-components', 'default');
+  revalidatePath('/components');
+  revalidatePath('/admin/dashboard');
+}
+
+/** Persist new order: orderedIds = [id1, id2, ...]. Updates sort_order so frontend (sidebar, gallery) reflects order. */
+export async function reorderComponents(orderedIds: string[]) {
+  if (orderedIds.length === 0) return;
+  const supabase = await createClient();
+  for (let i = 0; i < orderedIds.length; i++) {
+    const { error } = await supabase.from('ds_components').update({ sort_order: i }).eq('id', orderedIds[i]);
+    if (error) return;
+  }
   revalidateTag('ds-components', 'default');
   revalidatePath('/components');
   revalidatePath('/admin/dashboard');

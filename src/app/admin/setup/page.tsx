@@ -16,9 +16,15 @@ CREATE TABLE IF NOT EXISTS ds_components (
   usage_markdown TEXT NOT NULL DEFAULT '',
   code TEXT NOT NULL DEFAULT '',
   thumbnail_url TEXT,
+  image_urls TEXT[],
+  sort_order INTEGER NOT NULL DEFAULT 0,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+-- Add sort_order (and image_urls) if table already existed without them
+ALTER TABLE ds_components ADD COLUMN IF NOT EXISTS sort_order INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE ds_components ADD COLUMN IF NOT EXISTS image_urls TEXT[];
 
 CREATE OR REPLACE FUNCTION update_updated_at()
 RETURNS TRIGGER AS $$

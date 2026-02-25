@@ -10,6 +10,7 @@ export interface DSComponent {
   code: string;
   thumbnail_url: string | null;
   image_urls: string[] | null;
+  sort_order?: number;
   created_at: string;
   updated_at: string;
 }
@@ -23,6 +24,7 @@ export interface DSComponentInsert {
   code: string;
   thumbnail_url?: string | null;
   image_urls?: string[] | null;
+  sort_order?: number;
 }
 
 export interface DSComponentUpdate extends Partial<DSComponentInsert> {

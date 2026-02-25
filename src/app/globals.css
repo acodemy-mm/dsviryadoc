@@ -56,31 +56,38 @@
   --brand-light:     rgba(20, 100, 235, 0.12);
   --brand-ring:      rgba(77, 138, 240, 0.3);
 
-  /* Surface */
+  /* Surface — WCAG AA friendly */
   --bg:           #09090b;
   --bg-subtle:    #111113;
   --bg-muted:     #18181b;
   --bg-elevated:  #1c1c1f;
   --bg-sidebar:   #09090b;
-  --bg-card:      #c1c1dc;
+  --bg-card:      #18181b;
   --bg-input:     #18181b;
   --bg-code:      #09090b;
 
-  /* Border */
-  --border:        #27272a;
-  --border-subtle: #1f1f23;
-  --border-input:  #3f3f46;
+  /* Border — ≥3:1 non-text contrast on #09090b */
+  --border:        #404048;
+  --border-subtle: #38383f;
+  --border-input:  #4a4a52;
 
-  /* Foreground */
+  /* Foreground — ≥4.5:1 for normal text on #09090b */
   --fg:             #fafafa;
   --fg-muted:       #a1a1aa;
-  --fg-subtle:      #71717a;
-  --fg-placeholder: #52525b;
+  --fg-subtle:      #7d7d88;
+  --fg-placeholder: #737380;
   --fg-on-brand:    #ffffff;
 
   /* Syntax */
   --code-bg:   #09090b;
   --code-text: #ffffff;
+
+  /* Tailwind zinc overrides — WCAG AA for dark:text-zinc-* / dark:border-zinc-* */
+  --color-zinc-400: #a8a8b2;
+  --color-zinc-500: #8e8e98;
+  --color-zinc-600: #787882;
+  --color-zinc-700: #5c5c66;
+  --color-zinc-800: #404048;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════

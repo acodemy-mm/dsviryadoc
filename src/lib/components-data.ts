@@ -8,7 +8,10 @@ async function fetchComponentsList(): Promise<DSComponent[]> {
   if (!isSupabaseConfigured()) return [];
   const supabase = createPublicClient();
   const { data } = await supabase.from('ds_components').select('*').order('name');
-  return (data as DSComponent[]) ?? [];
+  const list = (data as DSComponent[]) ?? [];
+  return list.sort(
+    (a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0) || a.name.localeCompare(b.name)
+  );
 }
 
 async function fetchComponentBySlug(slug: string): Promise<DSComponent | null> {
