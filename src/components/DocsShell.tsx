@@ -7,7 +7,7 @@ import { DSComponent, DSPage } from '@/lib/types';
 import { CATEGORIES, cn } from '@/lib/utils';
 import { PAGE_SECTIONS } from '@/lib/constants';
 import { Layers, ChevronRight, Settings, Braces, BookOpen, FileText, Puzzle, Library } from 'lucide-react';
-import { ThemeToggleCompact } from '@/components/ThemeToggle';
+import { ThemeToggle, ThemeToggleCompact } from '@/components/ThemeToggle';
 import { GlobalSearch } from '@/components/GlobalSearch';
 import { SITE_VERSION } from '@/lib/constants';
 
@@ -53,13 +53,13 @@ export function SidebarNav({ components, pages, onNavigate }: SidebarNavProps) {
           'flex items-center gap-2 px-2.5 py-1.5 rounded-md text-xs font-medium transition-all duration-150',
           isActive
             ? 'bg-[#002c76] text-white shadow-sm'
-            : 'text-[#3d5070] dark:text-zinc-500 hover:text-[#002c76] dark:hover:text-zinc-300 hover:bg-[#eef2f7] dark:hover:bg-zinc-900'
+            : 'text-[#0a1628] dark:text-zinc-500 hover:text-[#002c76] dark:hover:text-zinc-300 hover:bg-[#eef2f7] dark:hover:bg-zinc-900'
         )}
       >
         {icon}
         {label}
         {badge !== undefined && (
-          <span className={cn('ml-auto text-[10px] font-mono', isActive ? 'text-blue-200' : 'text-[#9db0c8] dark:text-zinc-600')}>
+          <span className={cn('ml-auto text-[10px] font-mono', isActive ? 'text-blue-200' : 'text-[#4d6179] dark:text-zinc-600')}>
             {badge}
           </span>
         )}
@@ -76,7 +76,7 @@ export function SidebarNav({ components, pages, onNavigate }: SidebarNavProps) {
           </div>
           <div>
             <span className="text-sm font-bold text-[#002c76] dark:text-zinc-100 leading-tight block tracking-tight">Virya</span>
-            <span className="text-[10px] text-[#6b82a0] dark:text-zinc-600 leading-none font-medium">Design System</span>
+            <span className="text-[10px] text-[#0a1628] dark:text-zinc-600 leading-none font-medium">Design System</span>
           </div>
         </Link>
       </div>
@@ -91,7 +91,7 @@ export function SidebarNav({ components, pages, onNavigate }: SidebarNavProps) {
           const SectionIcon = SECTION_ICONS[section] ?? FileText;
           return (
             <div key={section} className="pt-3">
-              <p className="px-2.5 pb-1 text-[10px] font-bold uppercase tracking-widest text-[#9db0c8] dark:text-zinc-700 flex items-center gap-1.5">
+              <p className="px-2.5 pb-1 text-[10px] font-bold uppercase tracking-widest text-[#0a1628] dark:text-zinc-700 flex items-center gap-1.5">
                 <SectionIcon className="w-3 h-3" />
                 {section}
               </p>
@@ -108,7 +108,7 @@ export function SidebarNav({ components, pages, onNavigate }: SidebarNavProps) {
                         'flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs transition-all duration-150',
                         isActive
                           ? 'bg-[#002c76] text-white font-medium shadow-sm'
-                          : 'text-[#3d5070] dark:text-zinc-500 hover:text-[#002c76] dark:hover:text-zinc-300 hover:bg-[#eef2f7] dark:hover:bg-zinc-900'
+                          : 'text-[#0a1628] dark:text-zinc-500 hover:text-[#002c76] dark:hover:text-zinc-300 hover:bg-[#eef2f7] dark:hover:bg-zinc-900'
                       )}
                     >
                       {isActive && <ChevronRight className="w-3 h-3 shrink-0" />}
@@ -122,7 +122,7 @@ export function SidebarNav({ components, pages, onNavigate }: SidebarNavProps) {
         })}
 
         <div className="pt-3 pb-1">
-          <p className="px-2.5 text-[10px] font-bold uppercase tracking-widest text-[#9db0c8] dark:text-zinc-700">Components</p>
+          <p className="px-2.5 text-[10px] font-bold uppercase tracking-widest text-[#0a1628] dark:text-zinc-700">Components</p>
         </div>
 
         {CATEGORIES.map((category) => {
@@ -130,7 +130,7 @@ export function SidebarNav({ components, pages, onNavigate }: SidebarNavProps) {
           if (items.length === 0) return null;
           return (
             <div key={category} className="mb-2">
-              <p className="px-2.5 mb-0.5 mt-2 text-[10px] font-bold uppercase tracking-widest text-[#9db0c8] dark:text-zinc-600">
+              <p className="px-2.5 mb-0.5 mt-2 text-[10px] font-bold uppercase tracking-widest text-[#0a1628] dark:text-zinc-600">
                 {category}
               </p>
               <div className="space-y-0.5">
@@ -146,7 +146,7 @@ export function SidebarNav({ components, pages, onNavigate }: SidebarNavProps) {
                         'flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs transition-all duration-150',
                         isActive
                           ? 'bg-[#002c76] text-white font-medium shadow-sm'
-                          : 'text-[#3d5070] dark:text-zinc-500 hover:text-[#002c76] dark:hover:text-zinc-300 hover:bg-[#eef2f7] dark:hover:bg-zinc-900'
+                          : 'text-[#0a1628] dark:text-zinc-500 hover:text-[#002c76] dark:hover:text-zinc-300 hover:bg-[#eef2f7] dark:hover:bg-zinc-900'
                       )}
                     >
                       {isActive && <ChevronRight className="w-3 h-3 shrink-0" />}
@@ -165,11 +165,11 @@ export function SidebarNav({ components, pages, onNavigate }: SidebarNavProps) {
       </nav>
 
       <div className="px-3 py-4 border-t border-[#c9d5e8] dark:border-zinc-800 space-y-2">
-        <p className="px-2.5 text-[10px] font-mono text-[#9db0c8] dark:text-zinc-600">v{SITE_VERSION}</p>
+        <p className="px-2.5 text-[10px] font-mono text-[#4d6179] dark:text-zinc-600">v{SITE_VERSION}</p>
         <Link
           href="/admin/dashboard"
           onClick={onNavigate}
-          className="flex items-center gap-2 px-2.5 py-1.5 rounded-md text-xs text-[#6b82a0] dark:text-zinc-600 hover:text-[#002c76] dark:hover:text-zinc-400 hover:bg-[#eef2f7] dark:hover:bg-zinc-900 transition-colors"
+          className="flex items-center gap-2 px-2.5 py-1.5 rounded-md text-xs text-[#0a1628] dark:text-zinc-600 hover:text-[#002c76] dark:hover:text-zinc-400 hover:bg-[#eef2f7] dark:hover:bg-zinc-900 transition-colors"
         >
           <Settings className="w-3.5 h-3.5" />
           Admin
@@ -191,7 +191,7 @@ export function DocsShell({ components, pages, children }: DocsShellProps) {
   return (
     <div className="flex min-h-screen">
       {/* Desktop sidebar */}
-      <aside className="hidden md:flex w-60 shrink-0 flex-col border-r border-[#c9d5e8] dark:border-zinc-800 bg-[#f0f4fa] dark:bg-zinc-950 h-screen sticky top-0">
+      <aside className="hidden md:flex w-60 shrink-0 flex-col border-r border-[#c9d5e8] dark:border-zinc-800 bg-[#f8fafc] dark:bg-zinc-950 h-screen sticky top-0">
         <SidebarNav components={components} pages={pages} />
       </aside>
 
@@ -199,7 +199,7 @@ export function DocsShell({ components, pages, children }: DocsShellProps) {
       {mobileOpen && (
         <div className="fixed inset-0 z-40 md:hidden">
           <div className="absolute inset-0 bg-black/40" onClick={() => setMobileOpen(false)} />
-          <aside className="relative w-72 max-w-[85vw] h-full flex flex-col bg-[#f0f4fa] dark:bg-zinc-950 border-r border-[#c9d5e8] dark:border-zinc-800">
+          <aside className="relative w-72 max-w-[85vw] h-full flex flex-col bg-[#f8fafc] dark:bg-zinc-950 border-r border-[#c9d5e8] dark:border-zinc-800">
             <SidebarNav components={components} pages={pages} onNavigate={() => setMobileOpen(false)} />
           </aside>
         </div>
@@ -219,7 +219,8 @@ export function DocsShell({ components, pages, children }: DocsShellProps) {
           </button>
           <div className="flex-1" />
           <GlobalSearch components={components} pages={pages} />
-          <ThemeToggleCompact />
+          <ThemeToggle className="hidden sm:flex" />
+          <ThemeToggleCompact className="sm:hidden" />
         </header>
         <main className="flex-1 min-w-0">{children}</main>
       </div>

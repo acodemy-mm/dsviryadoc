@@ -43,6 +43,9 @@ export function ComponentForm({ component }: ComponentFormProps) {
   const [propsJson, setPropsJson] = useState(
     component?.props_json ? JSON.stringify(component.props_json, null, 2) : ''
   );
+  const [previewPropsJson, setPreviewPropsJson] = useState(
+    component?.preview_props ? JSON.stringify(component.preview_props, null, 2) : ''
+  );
   const [isUploading, setIsUploading] = useState(false);
   const [slugManuallyEdited, setSlugManuallyEdited] = useState(false);
 
@@ -109,6 +112,16 @@ export function ComponentForm({ component }: ComponentFormProps) {
       }
     }
 
+    let parsedPreviewProps = null;
+    if (previewPropsJson.trim()) {
+      try {
+        parsedPreviewProps = JSON.parse(previewPropsJson);
+      } catch {
+        setError('Preview props JSON is invalid.');
+        return;
+      }
+    }
+
     const data: DSComponentInsert = {
       name: name.trim(),
       slug: slug.trim(),
@@ -121,6 +134,7 @@ export function ComponentForm({ component }: ComponentFormProps) {
       figma_node_url: figmaNodeUrl.trim() || null,
       accessibility_markdown: accessibilityMarkdown.trim() || null,
       props_json: parsedProps,
+      preview_props: parsedPreviewProps,
     };
 
     startTransition(async () => {
@@ -211,6 +225,14 @@ export function ComponentForm({ component }: ComponentFormProps) {
             placeholder='[{"name":"variant","type":"string","description":"..."}]'
             value={propsJson}
             onChange={(e) => setPropsJson(e.target.value)}
+            className="min-h-[120px] font-mono text-xs"
+          />
+          <Textarea
+            id="preview-props-json"
+            label="Preview props JSON (optional — overrides registry defaults)"
+            placeholder='{"variants":[{"key":"primary","label":"Primary","props":{"children":"Click me","variant":"primary"}}]}'
+            value={previewPropsJson}
+            onChange={(e) => setPreviewPropsJson(e.target.value)}
             className="min-h-[120px] font-mono text-xs"
           />
 

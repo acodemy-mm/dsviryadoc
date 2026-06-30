@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Layers, ArrowRight, Braces, BookOpen, Component } from 'lucide-react';
 import { ThemeToggleCompact } from '@/components/ThemeToggle';
 import { SITE_VERSION } from '@/lib/constants';
+import { ModeDesignShowcase } from '@/components/ModeDesignShowcase';
 
 const QUICK_LINKS = [
   { href: '/docs/introduction', label: 'Getting Started', icon: BookOpen, description: 'Learn the principles and audience for Virya' },
@@ -101,6 +102,10 @@ export default function HomePage() {
             </div>
           </div>
         </section>
+
+        <div className="mt-6">
+          <ModeDesignShowcase />
+        </div>
       </main>
     </div>
   );

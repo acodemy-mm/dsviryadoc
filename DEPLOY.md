@@ -93,7 +93,7 @@ So you can deploy to any host that supports Node (e.g. **Railway**, **Render**, 
 
 ## Checklist before going live
 
-- [ ] Supabase: **Database** – run `supabase-schema.sql` (and `supabase-add-image-urls.sql` if the table already existed).
+- [ ] Supabase: **Database** – run `supabase-schema.sql` (fresh) or `supabase-migration-v2.sql` (upgrade).
 - [ ] Supabase: **Storage** – `thumbnails` bucket exists (created by the schema); policies allow public read and authenticated upload/delete.
 - [ ] Supabase: **Auth** – at least one user for admin; Site URL (and redirect URLs) set to your deployed URL.
 - [ ] Env vars set on the hosting platform (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, and optionally `SUPABASE_SERVICE_ROLE_KEY`).

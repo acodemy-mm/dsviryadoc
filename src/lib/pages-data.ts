@@ -41,7 +41,3 @@ export function getCachedPageBySlug(slug: string) {
     { tags: [CACHE_TAG], revalidate: 60 }
   )();
 }
-
-export function getSearchablePages(): DSPage[] {
-  return SEED_PAGES;
-}

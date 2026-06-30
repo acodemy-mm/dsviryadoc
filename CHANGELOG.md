@@ -18,6 +18,8 @@ All notable changes to the Virya Design System documentation site.
 - Changelog page
 - Figma "Open in Figma" links on component pages
 - Token sync script (`npm run sync:tokens`)
+- Foundation pages: Spacing & Layout, Elevation, Motion
+- Pattern pages: Tables, Navigation, Empty States
 
 ### Changed
 - Replaced bare `/` redirect with full landing page

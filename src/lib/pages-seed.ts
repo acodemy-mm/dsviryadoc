@@ -198,6 +198,104 @@ Each component page includes an **Accessibility** tab with keyboard and ARIA not
 `,
   },
   {
+    id: 'seed-spacing',
+    title: 'Spacing & Layout',
+    slug: 'spacing-layout',
+    section: 'Foundations',
+    sort_order: 2,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+    content_markdown: `# Spacing & Layout
+
+Use numeric spacing tokens for padding, margin, and gap. See the [Design Tokens](/tokens) page for the full scale.
+
+## Grid
+
+- Use \`spacing-4\` (16px) as the default gap between form fields
+- Page content max-width: 1280px (\`max-w-7xl\`)
+- Sidebar width: 240px on desktop
+
+## Common tokens
+
+| Token | Value | Use |
+|-------|-------|-----|
+| \`spacing-2\` | 8px | Tight inline gaps |
+| \`spacing-4\` | 16px | Form field spacing |
+| \`spacing-6\` | 24px | Section padding |
+| \`spacing-8\` | 32px | Page section gaps |
+
+> **Do**
+>
+> Use spacing tokens from the design system.
+
+> **Don't**
+>
+> Use arbitrary pixel values like \`13px\` or \`17px\`.
+`,
+  },
+  {
+    id: 'seed-elevation',
+    title: 'Elevation & Shadows',
+    slug: 'elevation',
+    section: 'Foundations',
+    sort_order: 3,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+    content_markdown: `# Elevation & Shadows
+
+Elevation tokens define shadow depth for cards, modals, and popovers.
+
+Browse elevation values on the [Design Tokens](/tokens) page under **Elevation**.
+
+## Usage
+
+- **Level 1** — Cards at rest, subtle separation from background
+- **Level 2** — Dropdowns, tooltips
+- **Level 3** — Modals, dialogs
+
+> **Do**
+>
+> Match elevation level to UI hierarchy — higher layers get stronger shadows.
+
+> **Don't**
+>
+> Stack multiple shadow levels on the same element.
+`,
+  },
+  {
+    id: 'seed-motion',
+    title: 'Motion',
+    slug: 'motion',
+    section: 'Foundations',
+    sort_order: 4,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+    content_markdown: `# Motion
+
+Virya uses subtle, purposeful motion to reinforce hierarchy and feedback.
+
+## Principles
+
+- **Fast** — UI transitions 150–200ms
+- **Purposeful** — Motion guides attention, never decorates
+- **Respectful** — Honor \`prefers-reduced-motion\`
+
+## Common patterns
+
+- Button hover: \`transition-all duration-150\`
+- Modal enter: fade + scale from 95%
+- Sidebar drawer: slide from left
+
+> **Do**
+>
+> Use CSS transitions on interactive states.
+
+> **Don't**
+>
+> Animate large layout shifts that cause disorientation.
+`,
+  },
+  {
     id: 'seed-forms',
     title: 'Forms',
     slug: 'forms',
@@ -222,6 +320,93 @@ Compose forms from Input, Label, Select, and Button atoms.
 > **Don't**
 >
 > Use placeholder text as the only label.
+`,
+  },
+  {
+    id: 'seed-tables',
+    title: 'Tables',
+    slug: 'tables',
+    section: 'Patterns',
+    sort_order: 1,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+    content_markdown: `# Tables
+
+Use tables for structured, comparable data — transactions, account lists, audit logs.
+
+## Structure
+
+- Sticky header row on scroll
+- Zebra striping optional; prefer subtle row dividers
+- Right-align numeric columns
+- Include empty state when no rows
+
+> **Do**
+>
+> Provide sort indicators on sortable columns.
+
+> **Don't**
+>
+> Use tables for layout — use CSS grid or flex instead.
+`,
+  },
+  {
+    id: 'seed-navigation',
+    title: 'Navigation',
+    slug: 'navigation',
+    section: 'Patterns',
+    sort_order: 2,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+    content_markdown: `# Navigation
+
+Primary navigation patterns for banking dashboards.
+
+## Sidebar
+
+- Collapsible on mobile (drawer)
+- Active item uses primary brand color
+- Group items by section with uppercase labels
+
+## Breadcrumbs
+
+Show path: Home → Section → Page. Use on detail and documentation pages.
+
+> **Do**
+>
+> Keep primary nav to 5–7 top-level items.
+
+> **Don't**
+>
+> Nest more than two levels in the sidebar.
+`,
+  },
+  {
+    id: 'seed-empty-states',
+    title: 'Empty States',
+    slug: 'empty-states',
+    section: 'Patterns',
+    sort_order: 3,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+    content_markdown: `# Empty States
+
+Guide users when a view has no content yet.
+
+## Anatomy
+
+- Illustration or icon
+- Headline explaining the state
+- Supporting description (optional)
+- Primary action to resolve (e.g. "Add component")
+
+> **Do**
+>
+> Offer a clear next step.
+
+> **Don't**
+>
+> Show a blank screen with no explanation.
 `,
   },
   {

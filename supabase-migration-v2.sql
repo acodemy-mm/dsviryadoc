@@ -109,3 +109,49 @@ UPDATE ds_components SET
   ]'::jsonb,
   figma_node_url = 'https://www.figma.com/design/CjCABootbKlUjl2pTpSguf/Components'
 WHERE slug = 'button';
+
+-- Additional foundation and pattern pages (v0.2.0)
+INSERT INTO ds_pages (title, slug, section, content_markdown, sort_order) VALUES
+(
+  'Spacing & Layout',
+  'spacing-layout',
+  'Foundations',
+  E'# Spacing & Layout\n\nUse numeric spacing tokens. See [Design Tokens](/tokens).',
+  2
+),
+(
+  'Elevation & Shadows',
+  'elevation',
+  'Foundations',
+  E'# Elevation & Shadows\n\nElevation tokens define shadow depth for cards, modals, and popovers.',
+  3
+),
+(
+  'Motion',
+  'motion',
+  'Foundations',
+  E'# Motion\n\nVirya uses subtle, purposeful motion. Honor prefers-reduced-motion.',
+  4
+),
+(
+  'Tables',
+  'tables',
+  'Patterns',
+  E'# Tables\n\nUse tables for structured, comparable data.',
+  1
+),
+(
+  'Navigation',
+  'navigation',
+  'Patterns',
+  E'# Navigation\n\nPrimary navigation patterns for banking dashboards.',
+  2
+),
+(
+  'Empty States',
+  'empty-states',
+  'Patterns',
+  E'# Empty States\n\nGuide users when a view has no content yet.',
+  3
+)
+ON CONFLICT (slug) DO NOTHING;

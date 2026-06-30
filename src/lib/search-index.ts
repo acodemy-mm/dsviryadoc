@@ -52,6 +52,14 @@ export function buildSearchIndex(components: DSComponent[], pages: DSPage[]): Se
     group: 'Tokens',
   });
 
+  results.push({
+    id: 'changelog',
+    title: 'Changelog',
+    subtitle: 'Release history',
+    href: '/changelog',
+    group: 'Docs',
+  });
+
   return results;
 }
 
