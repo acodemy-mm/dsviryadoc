@@ -1,6 +1,7 @@
 import { unstable_cache } from 'next/cache';
 import { createPublicClient, isSupabaseConfigured } from '@/lib/supabase/server';
 import { DSComponent } from '@/lib/types';
+import { normalizeComponent } from '@/lib/normalize-component';
 
 const CACHE_TAG = 'ds-components';
 
@@ -8,7 +9,7 @@ async function fetchComponentsList(): Promise<DSComponent[]> {
   if (!isSupabaseConfigured()) return [];
   const supabase = createPublicClient();
   const { data } = await supabase.from('ds_components').select('*').order('name');
-  const list = (data as DSComponent[]) ?? [];
+  const list = ((data ?? []) as Record<string, unknown>[]).map(normalizeComponent);
   return list.sort(
     (a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0) || a.name.localeCompare(b.name)
   );
@@ -23,7 +24,7 @@ async function fetchComponentBySlug(slug: string): Promise<DSComponent | null> {
     .eq('slug', slug)
     .single();
   if (error || !data) return null;
-  return data as DSComponent;
+  return normalizeComponent(data as Record<string, unknown>);
 }
 
 /** Cached list of all components (for sidebar). Revalidates every 60s; use revalidateTag('ds-components') on mutations. */
