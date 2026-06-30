@@ -38,6 +38,14 @@ export function ComponentForm({ component }: ComponentFormProps) {
   const [code, setCode] = useState(component?.code ?? '');
   const [thumbnailUrl, setThumbnailUrl] = useState(component?.thumbnail_url ?? '');
   const [imageUrls, setImageUrls] = useState<string[]>(component?.image_urls ?? []);
+  const [figmaNodeUrl, setFigmaNodeUrl] = useState(component?.figma_node_url ?? '');
+  const [accessibilityMarkdown, setAccessibilityMarkdown] = useState(component?.accessibility_markdown ?? '');
+  const [propsJson, setPropsJson] = useState(
+    component?.props_json ? JSON.stringify(component.props_json, null, 2) : ''
+  );
+  const [previewPropsJson, setPreviewPropsJson] = useState(
+    component?.preview_props ? JSON.stringify(component.preview_props, null, 2) : ''
+  );
   const [isUploading, setIsUploading] = useState(false);
   const [slugManuallyEdited, setSlugManuallyEdited] = useState(false);
 
@@ -94,6 +102,26 @@ export function ComponentForm({ component }: ComponentFormProps) {
       return;
     }
 
+    let parsedProps = null;
+    if (propsJson.trim()) {
+      try {
+        parsedProps = JSON.parse(propsJson);
+      } catch {
+        setError('Props JSON is invalid.');
+        return;
+      }
+    }
+
+    let parsedPreviewProps = null;
+    if (previewPropsJson.trim()) {
+      try {
+        parsedPreviewProps = JSON.parse(previewPropsJson);
+      } catch {
+        setError('Preview props JSON is invalid.');
+        return;
+      }
+    }
+
     const data: DSComponentInsert = {
       name: name.trim(),
       slug: slug.trim(),
@@ -103,6 +131,10 @@ export function ComponentForm({ component }: ComponentFormProps) {
       code: code.trim(),
       thumbnail_url: thumbnailUrl || null,
       image_urls: imageUrls.length ? imageUrls : null,
+      figma_node_url: figmaNodeUrl.trim() || null,
+      accessibility_markdown: accessibilityMarkdown.trim() || null,
+      props_json: parsedProps,
+      preview_props: parsedPreviewProps,
     };
 
     startTransition(async () => {
@@ -178,6 +210,30 @@ export function ComponentForm({ component }: ComponentFormProps) {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             className="min-h-[80px]"
+          />
+
+          <Input
+            id="figma"
+            label="Figma URL"
+            placeholder="https://www.figma.com/design/..."
+            value={figmaNodeUrl}
+            onChange={(e) => setFigmaNodeUrl(e.target.value)}
+          />
+          <Textarea
+            id="props-json"
+            label="Props JSON (optional)"
+            placeholder='[{"name":"variant","type":"string","description":"..."}]'
+            value={propsJson}
+            onChange={(e) => setPropsJson(e.target.value)}
+            className="min-h-[120px] font-mono text-xs"
+          />
+          <Textarea
+            id="preview-props-json"
+            label="Preview props JSON (optional — overrides registry defaults)"
+            placeholder='{"variants":[{"key":"primary","label":"Primary","props":{"children":"Click me","variant":"primary"}}]}'
+            value={previewPropsJson}
+            onChange={(e) => setPreviewPropsJson(e.target.value)}
+            className="min-h-[120px] font-mono text-xs"
           />
 
           <div className="flex flex-col gap-1.5">
@@ -259,6 +315,14 @@ export function ComponentForm({ component }: ComponentFormProps) {
             value={usageMarkdown}
             onChange={(e) => setUsageMarkdown(e.target.value)}
             className="min-h-[360px] font-mono text-xs"
+          />
+          <Textarea
+            id="accessibility"
+            label="Accessibility (Markdown, optional — shown in Accessibility tab)"
+            placeholder={`## Keyboard\n\n- Tab to focus\n- Enter/Space to activate\n\n## ARIA\n\n- Use aria-disabled for disabled state`}
+            value={accessibilityMarkdown}
+            onChange={(e) => setAccessibilityMarkdown(e.target.value)}
+            className="min-h-[160px] font-mono text-xs"
           />
         </div>
       )}

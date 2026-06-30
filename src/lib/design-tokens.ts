@@ -286,6 +286,8 @@ export const typographyMM = {
 
 export type Brand = 'kbz-bank' | 'kbz-pay' | 'premium-bank';
 
+export const ALL_BRANDS: Brand[] = ['kbz-bank', 'kbz-pay', 'premium-bank'];
+
 export const brandTypography: Record<Brand, typeof typographyLatin> = {
   'kbz-bank':     typographyLatin,
   'kbz-pay':      typographyLatin,

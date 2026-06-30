@@ -1,11 +1,11 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { BRAND_META, brandColors, type Brand, type ColorScale, type AlphaScale } from '@/lib/design-tokens';
+import { BRAND_META, brandColors, type Brand, type ColorScale, type AlphaScale, ALL_BRANDS } from '@/lib/design-tokens';
 import { Check, Copy } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-const BRANDS: Brand[] = ['kbz-bank', 'kbz-pay', 'premium-bank'];
+const BRANDS: Brand[] = ALL_BRANDS;
 const STEPS = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900] as const;
 
 function useCopyHex() {

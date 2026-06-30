@@ -15,7 +15,7 @@ export function AdminNav() {
   ];
 
   return (
-    <aside className="w-56 shrink-0 flex flex-col border-r border-[#c9d5e8] dark:border-zinc-800 bg-[#f0f4fa] dark:bg-zinc-950 h-screen sticky top-0">
+    <aside className="w-56 shrink-0 flex flex-col border-r border-[#c9d5e8] dark:border-zinc-800 bg-[#f8fafc] dark:bg-zinc-950 h-screen sticky top-0">
       <div className="px-4 py-5 border-b border-[#c9d5e8] dark:border-zinc-800 flex items-center justify-between">
         <Link href="/admin/dashboard" className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-xl bg-[#002c76] flex items-center justify-center shadow-sm">
@@ -23,7 +23,7 @@ export function AdminNav() {
           </div>
           <div>
             <p className="text-sm font-bold text-[#002c76] dark:text-zinc-100 leading-tight tracking-tight">Virya</p>
-            <p className="text-[10px] text-[#6b82a0] dark:text-zinc-600 font-medium">Admin Panel</p>
+            <p className="text-[10px] text-[#0a1628] dark:text-zinc-600 font-medium">Admin Panel</p>
           </div>
         </Link>
       </div>
@@ -39,7 +39,7 @@ export function AdminNav() {
                 'flex items-center gap-2.5 px-2.5 py-2 rounded-md text-xs font-medium transition-all duration-150',
                 isActive
                   ? 'bg-[#002c76] text-white shadow-sm'
-                  : 'text-[#3d5070] dark:text-zinc-500 hover:text-[#002c76] dark:hover:text-zinc-300 hover:bg-[#eef2f7] dark:hover:bg-zinc-900'
+                  : 'text-[#0a1628] dark:text-zinc-500 hover:text-[#002c76] dark:hover:text-zinc-300 hover:bg-[#eef2f7] dark:hover:bg-zinc-900'
               )}
             >
               <Icon className="w-3.5 h-3.5" />
@@ -53,7 +53,7 @@ export function AdminNav() {
         <Link
           href="/components"
           target="_blank"
-          className="flex items-center gap-2.5 px-2.5 py-2 rounded-md text-xs text-[#6b82a0] dark:text-zinc-600 hover:text-[#002c76] dark:hover:text-zinc-400 hover:bg-[#eef2f7] dark:hover:bg-zinc-900 transition-colors"
+          className="flex items-center gap-2.5 px-2.5 py-2 rounded-md text-xs text-[#0a1628] dark:text-zinc-600 hover:text-[#002c76] dark:hover:text-zinc-400 hover:bg-[#eef2f7] dark:hover:bg-zinc-900 transition-colors"
         >
           <ExternalLink className="w-3.5 h-3.5" />
           View Site
@@ -61,7 +61,7 @@ export function AdminNav() {
         <form action={signOut}>
           <button
             type="submit"
-            className="flex items-center gap-2.5 w-full px-2.5 py-2 rounded-md text-xs text-[#6b82a0] dark:text-zinc-600 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-zinc-900 transition-colors"
+            className="flex items-center gap-2.5 w-full px-2.5 py-2 rounded-md text-xs text-[#0a1628] dark:text-zinc-600 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-zinc-900 transition-colors"
           >
             <LogOut className="w-3.5 h-3.5" />
             Sign Out

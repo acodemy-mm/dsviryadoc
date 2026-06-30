@@ -21,11 +21,11 @@
 
   /* Surface — structured hierarchy */
   --bg:           #ffffff;
-  --bg-subtle:    #007af3;      /* very slight blue-tint to feel brand-aware */
-  --bg-muted:     #226cc7cd;      /* medium surface — cards, inputs */
-  --bg-elevated:  #d08585;
+  --bg-subtle:    #f8fafc;      /* very slight blue-tint to feel brand-aware */
+  --bg-muted:     #f0f4fa;      /* medium surface — cards, inputs */
+  --bg-elevated:  #e8eef8;
   --bg-sidebar:   #f0f4fa;      /* sidebar: clearly separated from content */
-  --bg-card:      #3771ee;
+  --bg-card:      #ffffff;
   --bg-input:     #ffffff;
   --bg-code:      #f0f4fa;
 
@@ -37,8 +37,8 @@
   /* Foreground — high contrast */
   --fg:             #0a1628;    /* near-black with brand undertone */
   --fg-muted:       #3d5070;    /* clear readable secondary */
-  --fg-subtle:      #6b82a0;    /* tertiary / labels */
-  --fg-placeholder: #9db0c8;
+  --fg-subtle:      #4d6179;    /* tertiary / labels (AA on white) */
+  --fg-placeholder: #5f728a;    /* placeholder/read-only hints (AA on white) */
   --fg-on-brand:    #ffffff;
 
   /* Syntax */
@@ -252,6 +252,8 @@
 /* ─── Base ───────────────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+:root { color-scheme: light dark; }
+.dark { color-scheme: dark; }
 
 body {
   font-family: var(--font-sans);
@@ -267,3 +269,9 @@ body {
 ::-webkit-scrollbar-thumb:hover { background: var(--border-input); }
 ::selection { background: rgba(0,44,118,0.15); color: var(--fg); }
 .dark ::selection { background: rgba(77,138,240,0.25); color: var(--fg); }
+
+/* WCAG AA corrections for recurring light-mode utility colors.
+   Scoped to light mode so `dark:*` utilities keep their intended values. */
+html:not(.dark) .text-\[\#6b82a0\] { color: #4d6179 !important; }
+html:not(.dark) .text-\[\#9db0c8\] { color: #5f728a !important; }
+html:not(.dark) .placeholder\:text-\[\#9db0c8\]::placeholder { color: #5f728a !important; }

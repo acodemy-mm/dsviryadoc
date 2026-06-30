@@ -1,4 +1,6 @@
--- Design System Components Table
+-- Virya Design System — full schema (components + documentation pages)
+-- For existing databases, run supabase-migration-v2.sql instead.
+
 CREATE TABLE IF NOT EXISTS ds_components (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   name TEXT NOT NULL,
@@ -9,6 +11,22 @@ CREATE TABLE IF NOT EXISTS ds_components (
   code TEXT NOT NULL DEFAULT '',
   thumbnail_url TEXT,
   image_urls JSONB DEFAULT '[]',
+  props_json JSONB DEFAULT NULL,
+  preview_props JSONB DEFAULT NULL,
+  figma_node_url TEXT DEFAULT NULL,
+  accessibility_markdown TEXT NOT NULL DEFAULT '',
+  sort_order INTEGER DEFAULT 0,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS ds_pages (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  title TEXT NOT NULL,
+  slug TEXT NOT NULL UNIQUE,
+  section TEXT NOT NULL CHECK (section IN ('Getting Started', 'Foundations', 'Patterns', 'Resources')),
+  content_markdown TEXT NOT NULL DEFAULT '',
+  sort_order INTEGER DEFAULT 0,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
@@ -30,6 +48,8 @@ CREATE TRIGGER ds_components_updated_at
 -- Indexes for performance
 CREATE INDEX IF NOT EXISTS idx_ds_components_slug ON ds_components(slug);
 CREATE INDEX IF NOT EXISTS idx_ds_components_category ON ds_components(category);
+CREATE INDEX IF NOT EXISTS idx_ds_pages_slug ON ds_pages(slug);
+CREATE INDEX IF NOT EXISTS idx_ds_pages_section ON ds_pages(section);
 
 -- Row Level Security
 ALTER TABLE ds_components ENABLE ROW LEVEL SECURITY;
@@ -41,6 +61,16 @@ CREATE POLICY "Public read access" ON ds_components
 -- Allow authenticated users to write
 CREATE POLICY "Authenticated write access" ON ds_components
   FOR ALL USING (auth.role() = 'authenticated');
+
+ALTER TABLE ds_pages ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Public read ds_pages" ON ds_pages FOR SELECT USING (true);
+CREATE POLICY "Authenticated write ds_pages" ON ds_pages FOR ALL USING (auth.role() = 'authenticated');
+
+CREATE TRIGGER ds_pages_updated_at
+  BEFORE UPDATE ON ds_pages
+  FOR EACH ROW
+  EXECUTE FUNCTION update_updated_at();
 
 -- Storage bucket for thumbnails
 INSERT INTO storage.buckets (id, name, public) 

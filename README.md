@@ -1,16 +1,29 @@
-# Design System Documentation
+# Virya Design System Documentation
 
-A full-stack design system documentation website built with **Next.js 16**, **Tailwind CSS v4**, and **Supabase**.
+A full-stack design system documentation website for **KBZ Bank**, **KBZ Pay**, and **Premium Bank** — built with **Next.js 16**, **Tailwind CSS v4**, and **Supabase**.
 
 ## Features
 
-- **Component Gallery** — Grid view with real-time search and category filtering
-- **Sidebar Navigation** — Components grouped by category (Atoms → Pages)
-- **Detail Pages** — Visual preview, markdown usage docs, and syntax-highlighted code playground
-- **Copy to Clipboard** — One-click code copy with animated feedback
-- **Admin Dashboard** — CRUD for all components, protected by Supabase Auth
-- **Image Uploads** — Thumbnail upload to Supabase Storage
-- **Linear/Vercel Aesthetic** — Dark theme, sharp borders, high contrast
+### Public documentation
+- **Landing page** — Hero, quick links, multi-brand overview, version badge
+- **Getting Started & Foundations** — Markdown docs at `/docs/[slug]` (Introduction, For Designers, Accessibility, Icons, etc.)
+- **Component gallery** — Search, category filters, live previews on detail pages
+- **Design tokens** — Brand switcher, copy-to-clipboard swatches, Latin + MM typography tabs
+- **Global search** — `⌘K` command palette across components, docs, and tokens
+- **Changelog** — `/changelog` rendered from `CHANGELOG.md`
+- **Mobile navigation** — Collapsible sidebar drawer
+
+### Component detail pages
+- **Tabs:** Preview | Usage | Props | Code | Accessibility
+- **Live preview** — Interactive registry components with variant controls
+- **Breadcrumbs** + sticky table of contents
+- **Open in Figma** — Per-component Figma library links
+
+### Admin
+- CRUD for components (Supabase CMS)
+- Props JSON, preview props, accessibility markdown, Figma URL fields
+- Image upload to Supabase Storage
+- Drag-and-drop reorder
 
 ## Tech Stack
 
@@ -24,22 +37,22 @@ A full-stack design system documentation website built with **Next.js 16**, **Ta
 | Syntax Highlighting | react-syntax-highlighter |
 | Markdown | react-markdown + remark-gfm |
 | Icons | lucide-react |
+| Theming | next-themes |
 
 ## Getting Started
 
 ### 1. Set up Supabase
 
 1. Create a project at [supabase.com](https://supabase.com)
-2. Go to **SQL Editor** and run the contents of `supabase-schema.sql`
-3. Create a user in **Authentication → Users** for admin access
+2. Run **`supabase-schema.sql`** in the SQL Editor (fresh install)
+3. If upgrading an existing database, also run **`supabase-migration-v2.sql`**
+4. Create a user in **Authentication → Users** for admin access
 
 ### 2. Configure environment variables
 
 ```bash
 cp .env.local.example .env.local
 ```
-
-Fill in your Supabase credentials:
 
 ```env
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
@@ -57,69 +70,60 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
-## Project Structure
+## Scripts
 
-```
-src/
-├── app/
-│   ├── components/
-│   │   ├── layout.tsx          # Sidebar layout
-│   │   ├── page.tsx            # Component gallery
-│   │   └── [slug]/page.tsx     # Component detail
-│   ├── admin/
-│   │   ├── login/page.tsx      # Auth page
-│   │   └── dashboard/
-│   │       ├── page.tsx        # Admin table
-│   │       ├── new/page.tsx    # Create form
-│   │       └── [id]/edit/      # Edit form
-│   ├── layout.tsx
-│   └── not-found.tsx
-├── components/
-│   ├── ui/                     # Base UI primitives
-│   ├── Sidebar.tsx
-│   ├── SearchBar.tsx           # Gallery with search/filter
-│   ├── ComponentCard.tsx
-│   ├── ComponentForm.tsx       # Admin create/edit form
-│   ├── CodeBlock.tsx           # Syntax highlighted code
-│   ├── CopyButton.tsx
-│   ├── MarkdownRenderer.tsx
-│   ├── AdminNav.tsx
-│   └── DeleteButton.tsx
-├── lib/
-│   ├── supabase/
-│   │   ├── client.ts           # Browser client
-│   │   └── server.ts           # Server & service clients
-│   ├── actions.ts              # Server Actions (CRUD)
-│   ├── types.ts
-│   └── utils.ts
-└── proxy.ts                    # Auth middleware (Next.js 16)
-```
-
-## Database Schema
-
-```sql
-CREATE TABLE ds_components (
-  id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  name          TEXT NOT NULL,
-  slug          TEXT NOT NULL UNIQUE,
-  category      TEXT NOT NULL,  -- Atoms | Molecules | Organisms | Templates | Pages
-  description   TEXT,
-  usage_markdown TEXT,          -- Markdown content for "When to use" section
-  code          TEXT,           -- Source code for playground
-  thumbnail_url TEXT,           -- URL to Supabase Storage image
-  created_at    TIMESTAMPTZ DEFAULT NOW(),
-  updated_at    TIMESTAMPTZ DEFAULT NOW()
-);
-```
+| Script | Description |
+|---|---|
+| `npm run dev` | Start development server |
+| `npm run build` | Production build |
+| `npm run sync:tokens` | Copy token export from companion Figma project |
 
 ## Routes
 
 | Route | Description |
 |---|---|
-| `/` | Redirects to `/components` |
-| `/components` | Public gallery with search |
-| `/components/[slug]` | Component detail page |
+| `/` | Landing page |
+| `/docs/[slug]` | Getting Started, Foundations, Patterns, Resources |
+| `/components` | Component gallery |
+| `/components/[slug]` | Component detail with live preview |
+| `/tokens` | Design tokens reference |
+| `/changelog` | Release history |
 | `/admin/login` | Admin login |
-| `/admin/dashboard` | Component management table |
-| `/admin/dashboard/new` | Create new component |
-| `/admin/dashboard/[id]/edit` | Edit existing component |
+| `/admin/dashboard` | Component management |
+
+## Project Structure
+
+```
+src/
+├── app/
+│   ├── page.tsx                 # Landing page
+│   ├── docs/[slug]/             # Static documentation pages
+│   ├── components/              # Gallery + detail
+│   ├── tokens/                  # Token reference
+│   ├── changelog/               # Changelog
+│   └── admin/                   # CMS
+├── components/
+│   ├── registry/                # Slug → React component map
+│   ├── DocsShell.tsx            # Sidebar + mobile drawer + search
+│   ├── ComponentPreview.tsx     # Live preview panel
+│   ├── GlobalSearch.tsx         # ⌘K palette
+│   └── tokens/                  # Token UI sections
+└── lib/
+    ├── design-tokens.ts         # Token definitions
+    ├── pages-seed.ts            # Fallback doc content (no Supabase)
+    └── components-data.ts       # Cached Supabase queries
+```
+
+## Token sync
+
+To sync tokens from the companion Figma/Storybook project:
+
+```bash
+npm run sync:tokens
+```
+
+A GitHub Action (`.github/workflows/sync-tokens.yml`) runs weekly and on manual dispatch.
+
+## Deployment
+
+See [DEPLOY.md](./DEPLOY.md) for Vercel setup and CI.
